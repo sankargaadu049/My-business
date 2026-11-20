@@ -1,0 +1,410 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MY BUSINESS - Fashion Store</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #faf8f4;
+  color: #222;
+}
+
+header {
+  background: #151515;
+  color: white;
+  padding: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.logo {
+  font-size: 21px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.cart {
+  background: #d4ad69;
+  color: black;
+  padding: 10px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.hero {
+  min-height: 420px;
+  background:
+  linear-gradient(#0008,#0008),
+  url("https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1200");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+  padding: 25px;
+}
+
+.hero h1 {
+  font-size: 38px;
+  margin-bottom: 15px;
+}
+
+.hero p {
+  margin-bottom: 25px;
+}
+
+.btn {
+  background: #d4ad69;
+  color: black;
+  padding: 13px 25px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.section {
+  padding: 35px 15px;
+}
+
+.section h2 {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.categories {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.categories button {
+  padding: 10px 16px;
+  border: 1px solid #c7a15e;
+  background: white;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.categories button.active {
+  background: #171717;
+  color: white;
+}
+
+.products {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 14px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.product {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 3px 12px #0001;
+}
+
+.product img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.info {
+  padding: 12px;
+}
+
+.info h3 {
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+
+.price {
+  color: #a77b35;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.info button {
+  width: 100%;
+  background: #171717;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+}
+
+.cartbox {
+  display: none;
+  background: white;
+  padding: 18px;
+  margin: 20px auto;
+  max-width: 600px;
+  border-radius: 10px;
+}
+
+.cartbox h3 {
+  margin: 15px 0;
+}
+
+.cartbox button {
+  padding: 11px;
+  margin: 5px 0;
+  background: #d4ad69;
+  border: none;
+  border-radius: 5px;
+}
+
+.about {
+  background: #eee8dc;
+  text-align: center;
+  padding: 45px 20px;
+  line-height: 1.8;
+}
+
+.contact {
+  background: #171717;
+  color: white;
+  text-align: center;
+  padding: 40px 20px;
+  line-height: 2;
+}
+
+footer {
+  background: black;
+  color: white;
+  text-align: center;
+  padding: 18px;
+}
+
+@media(min-width:700px) {
+  .products {
+    grid-template-columns: repeat(3,1fr);
+  }
+  .hero h1 {
+    font-size: 55px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">MY BUSINESS.</div>
+  <div class="cart" onclick="showCart()">
+    🛒 Cart (<span id="count">0</span>)
+  </div>
+</header>
+
+<section class="hero">
+  <div>
+    <h1>Style That Defines You</h1>
+    <p>Discover Your Perfect Fashion Style</p>
+    <button class="btn" onclick="document.getElementById('shop').scrollIntoView()">
+      SHOP NOW
+    </button>
+  </div>
+</section>
+
+<section class="section" id="shop">
+  <h2>OUR COLLECTION</h2>
+
+  <div class="categories">
+    <button class="active" onclick="filterProducts('All',this)">All</button>
+    <button onclick="filterProducts('Men',this)">Men</button>
+    <button onclick="filterProducts('Women',this)">Women</button>
+    <button onclick="filterProducts('Accessories',this)">Accessories</button>
+  </div>
+
+  <div class="products" id="products"></div>
+
+  <div class="cartbox" id="cartbox">
+    <h2>YOUR CART</h2>
+    <div id="cartitems"></div>
+    <h3 id="total"></h3>
+    <button onclick="orderWhatsApp()">Order on WhatsApp</button>
+    <button onclick="clearCart()">Clear Cart</button>
+  </div>
+</section>
+
+<section class="about">
+  <h2>ABOUT US</h2>
+  <p>
+    Welcome to MY BUSINESS!
+    Discover stylish, modern and quality fashion
+    at affordable prices. Make your own style statement.
+  </p>
+</section>
+
+<section class="contact">
+  <h2>CONTACT US</h2>
+  <p>📍 Your Shop Address</p>
+  <p>📞 Your Phone Number</p>
+  <p>📧 yourbusiness@email.com</p>
+</section>
+
+<footer>
+  © 2026 MY BUSINESS. All Rights Reserved.
+</footer>
+
+<script>
+
+const products = [
+{
+ name:"Classic Men's Shirt",
+ price:799,
+ category:"Men",
+ image:"https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500"
+},
+{
+ name:"Men's Casual Wear",
+ price:999,
+ category:"Men",
+ image:"https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=500"
+},
+{
+ name:"Women's Dress",
+ price:1299,
+ category:"Women",
+ image:"https://images.unsplash.com/photo-1539008835657-9e8e9680c956?w=500"
+},
+{
+ name:"Women's Fashion",
+ price:1499,
+ category:"Women",
+ image:"https://images.unsplash.com/photo-1483985988355-763728e1935b?w=500"
+},
+{
+ name:"Fashion Handbag",
+ price:599,
+ category:"Accessories",
+ image:"https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500"
+},
+{
+ name:"Stylish Sunglasses",
+ price:399,
+ category:"Accessories",
+ image:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=500"
+}
+];
+
+let cart = [];
+
+function displayProducts(category="All") {
+ const container = document.getElementById("products");
+ container.innerHTML = "";
+
+ products.forEach((p,index) => {
+  if(category !== "All" && p.category !== category) return;
+
+  container.innerHTML += `
+  <div class="product">
+    <img src="${p.image}" alt="${p.name}">
+    <div class="info">
+      <h3>${p.name}</h3>
+      <div class="price">₹${p.price}</div>
+      <button onclick="addToCart(${index})">
+        Add to Cart
+      </button>
+    </div>
+  </div>`;
+ });
+}
+
+function filterProducts(category,button) {
+ document.querySelectorAll(".categories button")
+ .forEach(b => b.classList.remove("active"));
+
+ button.classList.add("active");
+ displayProducts(category);
+}
+
+function addToCart(index) {
+ cart.push(products[index]);
+ updateCart();
+ alert("Product added to cart!");
+}
+
+function updateCart() {
+ document.getElementById("count").innerText = cart.length;
+
+ let items = document.getElementById("cartitems");
+ items.innerHTML = "";
+
+ let total = 0;
+
+ cart.forEach(p => {
+  items.innerHTML += `<p>${p.name} - ₹${p.price}</p>`;
+  total += p.price;
+ });
+
+ document.getElementById("total").innerText =
+ "Total: ₹" + total;
+}
+
+function showCart() {
+ let box = document.getElementById("cartbox");
+ box.style.display =
+ box.style.display === "block" ? "none" : "block";
+
+ box.scrollIntoView({behavior:"smooth"});
+}
+
+function clearCart() {
+ cart = [];
+ updateCart();
+ document.getElementById("cartbox").style.display = "none";
+}
+
+function orderWhatsApp() {
+ if(cart.length === 0) {
+  alert("Your cart is empty!");
+  return;
+ }
+
+ const phone = "91XXXXXXXXXX";
+
+ let message = "Hello! I want to order:\n";
+ let total = 0;
+
+ cart.forEach(p => {
+  message += p.name + " - ₹" + p.price + "\n";
+  total += p.price;
+ });
+
+ message += "\nTotal: ₹" + total;
+
+ window.open(
+  "https://wa.me/" + phone + "?text=" +
+  encodeURIComponent(message),
+  "_blank"
+ );
+}
+
+displayProducts();
+
+</script>
+
+</body>
+</html>
